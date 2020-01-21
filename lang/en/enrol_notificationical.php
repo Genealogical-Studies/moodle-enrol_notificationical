@@ -91,3 +91,8 @@ $string['enrolupdatemessage_help'] = 'Personalize the message that users will co
 {ENDTIME} = course end
 </pre>';
 $string['enrolupdatemessagedefault'] = 'Your enrolment to {$a->fullname} has been updated ({$a->url})';
+
+//Subjectnames
+$string['enrolsubject'] = 'Enrol notification';
+$string['unenrolsubject'] = 'Unenrol notification';
+$string['updatesubject'] = 'Course Updated';

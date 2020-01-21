@@ -60,6 +60,8 @@ class ical {
 
     protected $subjectprefix = '';
 
+    protected $sequence = '0';
+
 
     /**
      * Create a new mod_booking\ical instance
@@ -100,7 +102,7 @@ class ical {
      * @param bool $cancel optional - true to generate a 'cancel' ical event
      * @return string the path to the attachment file empty if no dates are set
      */
-    public function get_attachment($cancel = false) {
+    public function get_attachment($cancel = false, $update = false) {
         global $CFG;
         if (!$this->datesareset) {
             return '';
@@ -114,10 +116,15 @@ class ical {
             $dtend = $dtstart;
         }
 
-        if ($cancel) {
+        if ($cancel){
             $this->role = 'NON-PARTICIPANT';
             $this->status = "\nSTATUS:CANCELLED";
         }
+
+        if ($update){
+            $this->sequence = $this->course->timemodified;
+        }
+
         $icalmethod = ($cancel) ? 'CANCEL' : 'PUBLISH';
 
 
@@ -172,7 +179,7 @@ DTSTAMP:{$this->dtstamp}
 DTSTART:{$dtstart}
 LOCATION:{$this->location}
 PRIORITY:5
-SEQUENCE:0
+SEQUENCE:{$this->sequence}
 SUMMARY:{$this->summary}
 TRANSP:OPAQUE{$this->status}
 ORGANIZER;CN={$this->fromuser->email}:MAILTO:{$this->fromuser->email}

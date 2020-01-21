@@ -91,3 +91,9 @@ $string['enrolupdatemessage_help'] = 'Personalisieren Sie die Nachricht, für Ku
 {ENDTIME} = Kursende
 </pre>';
 $string['enrolupdatemessagedefault'] = 'Ihre Anmeldung zu {$a->fullname} wurde aktualisiert ({$a->url})';
+
+
+//Subjectnames
+$string['enrolsubject'] = 'Bestätigung Kurseinschreibung';
+$string['unenrolsubject'] = 'Abmeldung Kurs';
+$string['updatesubject'] = 'Update Kurs';

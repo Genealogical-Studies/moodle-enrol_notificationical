@@ -72,6 +72,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $subject = get_string('subject', 'enrol_notificationical');
         $enrolupdatealert = $pluginconfig->enrolupdatealert;
         $globalenrolupdatealert = $pluginconfig->globalenrolupdatealert;
+        $update = false;
 
         if (!$enrolmessage = $enrol->customtext1) { // Corse level.
             if (!$enrolmessage = $pluginconfig->enrolmessage) { // Plugin level.
@@ -94,21 +95,22 @@ class enrol_notificationical_plugin extends enrol_plugin
                 if (!empty($enrolalert) || !empty($globalenrolalert)) {
                     $message = $this->get_message($enrolmessage, $user, $course);
                     $cancel = false;
-                    $subject = "Enrol notification";
+                    $subject = get_string('enrolsubject', 'enrol_notificationical');
                 }
                 break;
             case 2:
                 if (!empty($unenrolalert) || !empty($globalunenrolalert)) {
                     $message = $this->get_message($unenrolmessage, $user, $course);
                     $cancel = true;
-                    $subject = "Unenrol notification";
+                    $subject = get_string('unenrolsubject', 'enrol_notificationical');
                 }
                 break;
             case 3:
                 if (!empty($enrolupdatealert) || !empty($globalenrolupdatealert)) {
                     $message = $this->get_message($enrolupdatemessage, $user, $course);
                     $cancel = false;
-                    $subject = "Course Updated";
+                    $subject = get_string('updatesubject', 'enrol_notificationical');
+                    $update = true;
                 }
                 break;
             default:
@@ -121,7 +123,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $supportuser = \core_user::get_support_user();
 
         $ical = $this->get_ical_attachment($user, $course, $supportuser, $summary, $description, $location);
-        $attachmenttext = $ical->get_attachment($cancel);
+        $attachmenttext = $ical->get_attachment($cancel, $update);
         $attachname = md5(microtime().$user->id).$ical->get_name();
 
         $eventdata = new \core\message\message();
@@ -131,7 +133,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $eventdata->name = 'notificationical_enrolment';
         $eventdata->userfrom = $supportuser;
         $eventdata->userto = $user->id;
-        $eventdata->subject = $subject;
+        $eventdata->subject = $subject . " " . $course->fullname;
         $eventdata->fullmessage = '';
         $eventdata->fullmessageformat = FORMAT_HTML;
         $eventdata->fullmessagehtml = $message;
