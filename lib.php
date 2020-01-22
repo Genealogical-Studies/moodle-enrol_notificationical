@@ -68,7 +68,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $globalenrolalert = $pluginconfig->globalenrolalert;
         $unenrolalert = $pluginconfig->unenrolalert;
         $globalunenrolalert = $pluginconfig->globalunenrolalert;
-        $cancel = false;
+        $method = "PUBLISH";
         $subject = get_string('subject', 'enrol_notificationical');
         $enrolupdatealert = $pluginconfig->enrolupdatealert;
         $globalenrolupdatealert = $pluginconfig->globalenrolupdatealert;
@@ -94,21 +94,21 @@ class enrol_notificationical_plugin extends enrol_plugin
             case 1:
                 if (!empty($enrolalert) || !empty($globalenrolalert)) {
                     $message = $this->get_message($enrolmessage, $user, $course);
-                    $cancel = false;
+                    $method = "PUBLISH";
                     $subject = get_string('enrolsubject', 'enrol_notificationical');
                 }
                 break;
             case 2:
                 if (!empty($unenrolalert) || !empty($globalunenrolalert)) {
                     $message = $this->get_message($unenrolmessage, $user, $course);
-                    $cancel = true;
+                    $method = "CANCEL";
                     $subject = get_string('unenrolsubject', 'enrol_notificationical');
                 }
                 break;
             case 3:
                 if (!empty($enrolupdatealert) || !empty($globalenrolupdatealert)) {
                     $message = $this->get_message($enrolupdatemessage, $user, $course);
-                    $cancel = false;
+                    $method = "REQUEST";
                     $subject = get_string('updatesubject', 'enrol_notificationical');
                     $update = true;
                 }
@@ -123,7 +123,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $supportuser = \core_user::get_support_user();
 
         $ical = $this->get_ical_attachment($user, $course, $supportuser, $summary, $description, $location);
-        $attachmenttext = $ical->get_attachment($cancel, $update);
+        $attachmenttext = $ical->get_attachment($method, $update);
         $attachname = md5(microtime().$user->id).$ical->get_name();
 
         $eventdata = new \core\message\message();

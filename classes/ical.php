@@ -86,23 +86,23 @@ class ical {
         // and shows the newlines as [0x0A] junk. So we switch it for commas
         // here. Remember commas need to be escaped too.
 
-            $this->datesareset = true;
-            $this->user = $DB->get_record('user', array('id' => $user->id));
-            // Date that this representation of the calendar information was created -
-            // See http://www.kanzaki.com/docs/ical/dtstamp.html.
-            $this->dtstamp = $this->generate_timestamp($this->course->timemodified);
-            $urlbits = parse_url($CFG->wwwroot);
-            $this->host = $urlbits['host'];
-            $this->userfullname = \fullname($this->user);
-    }
+        $this->datesareset = true;
+        $this->user = $DB->get_record('user', array('id' => $user->id));
+        // Date that this representation of the calendar information was created -
+        // See http://www.kanzaki.com/docs/ical/dtstamp.html.
+        $this->dtstamp = $this->generate_timestamp($this->course->timemodified);
+        $urlbits = parse_url($CFG->wwwroot);
+        $this->host = $urlbits['host'];
+        $this->userfullname = \fullname($this->user);
 
+    }
     /**
      * Create an attachment to add to the notification email
      *
      * @param bool $cancel optional - true to generate a 'cancel' ical event
      * @return string the path to the attachment file empty if no dates are set
      */
-    public function get_attachment($cancel = false, $update = false) {
+    public function get_attachment($method, $update = false) {
         global $CFG;
         if (!$this->datesareset) {
             return '';
@@ -116,7 +116,7 @@ class ical {
             $dtend = $dtstart;
         }
 
-        if ($cancel){
+        if ($method == "CANCEL"){
             $this->role = 'NON-PARTICIPANT';
             $this->status = "\nSTATUS:CANCELLED";
         }
@@ -125,7 +125,7 @@ class ical {
             $this->sequence = $this->course->timemodified;
         }
 
-        $icalmethod = ($cancel) ? 'CANCEL' : 'PUBLISH';
+        $icalmethod = $method;
 
 
         $this->add_vevent($uid, $dtstart, $dtend);
