@@ -206,8 +206,8 @@ class enrol_notificationical_observer {
             $users = get_enrolled_users($context);
             $notificationical = new enrol_notificationical_plugin();
 
-            $activeglobal = $notificationical->get_config('globalenrolalert');
-            $enrolalert = $notificationical->get_config('enrolalert');
+            $activeglobal = $notificationical->get_config('globalenrolupdatealert');
+            $enrolalert = $notificationical->get_config('enrolupdatealert');
 
             $enrol = $DB->get_record('enrol', array('enrol' => 'notificationical', 'courseid' => $event->courseid));
 

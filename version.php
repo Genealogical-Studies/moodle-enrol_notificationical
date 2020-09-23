@@ -26,7 +26,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2020012100;
+$plugin->version   = 2020092300;
 $plugin->requires  = 2016120503;
 $plugin->component = 'enrol_notificationical';
 $plugin->maturity = MATURITY_STABLE;
