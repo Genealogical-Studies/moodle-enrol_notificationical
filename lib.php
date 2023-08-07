@@ -215,10 +215,10 @@ class enrol_notificationical_plugin extends enrol_plugin
                 }
             }
         }
-        $startdate_formatted = userdate($startdate, get_string('strftimedatetime', 'core_langconfig'));
+        $startdate_formatted = userdate($startdate, get_string('strftimedaydate', 'core_langconfig'));
         $enddate_formatted = null;
         if ($enddate) {
-            $enddate_formatted = userdate($enddate, get_string('strftimedatetime', 'core_langconfig'));;
+            $enddate_formatted = userdate($enddate, get_string('strftimedaydate', 'core_langconfig'));;
         }
         else {
             $enddate_formatted = "(end date not yet set)";
