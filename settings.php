@@ -38,6 +38,12 @@ if ($ADMIN->fulltree) {
         'Should an ical file be attached to the notifications?',
         ''
     ));
+    $settings->add(new admin_setting_configcheckbox(
+        'enrol_notificationical/sendtosupport',
+        'Send an extra message to support user',
+        'Also send an email to the support user (supportemail config)',
+        ''
+    ));
 
     // Enrol notification.
     $settings->add(new admin_setting_configcheckbox(

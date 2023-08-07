@@ -73,6 +73,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $enrolupdatealert = $pluginconfig->enrolupdatealert;
         $globalenrolupdatealert = $pluginconfig->globalenrolupdatealert;
         $attachical = $pluginconfig->attachical;
+        $sendtosupport = $pluginconfig->sendtosupport;
         $update = false;
 
         if (!$enrolmessage = $enrol->customtext1) { // Corse level.
@@ -135,6 +136,9 @@ class enrol_notificationical_plugin extends enrol_plugin
         $eventdata->fullmessagehtml = $message;
         $eventdata->smallmessage = '';
         $eventdata->timecreated = time();
+        $supportdata = clone($eventdata);
+        $supportdata->userto = $supportuser;
+        $supportdata->subject .= " - User: " . fullname($user) . " (" . $user->username . ")";
 
         $file = null;
         if ($attachical) {
@@ -158,15 +162,23 @@ class enrol_notificationical_plugin extends enrol_plugin
             $eventdata->attachment = $file;
         }
 
-
         $strdata = new stdClass();
         $strdata->username = $user->username;
         $strdata->coursename = $course->fullname;
         if (message_send($eventdata)) {
             $this->log .= get_string('succefullsend', 'enrol_notificationical', $strdata);
+
+            if ($sendtosupport) {
+                message_send($supportdata);
+            }
             return true;
         } else {
             $this->log .= get_string('failsend', 'enrol_notificationical', $strdata);
+
+            if ($sendtosupport) {
+                $supportdata->subject = "(Failed to send notification to user) " . $supportdata->subject;
+                message_send($supportdata);
+            }
             return false;
         }
         if ($file) {
