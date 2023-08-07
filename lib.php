@@ -56,7 +56,7 @@ class enrol_notificationical_plugin extends enrol_plugin
      * @param int $type notice enrollment, update or unenrollment
      * @return bool
      */
-    public function send_email(stdClass $user, stdClass $course, $type) {
+    public function send_email(stdClass $user, stdClass $course, $type, \core\event\base $event) {
         global $CFG, $DB;
 
         $course->url = $CFG->wwwroot . '/course/view.php?id=' . $course->id;
@@ -95,21 +95,21 @@ class enrol_notificationical_plugin extends enrol_plugin
         switch ((int)$type) {
             case 1:
                 if (!empty($enrolalert) || !empty($globalenrolalert)) {
-                    $message = $this->get_message($enrolmessage, $user, $course);
+                    $message = $this->get_message($enrolmessage, $user, $course, $event);
                     $method = "PUBLISH";
                     $subject = get_string('enrolsubject', 'enrol_notificationical');
                 }
                 break;
             case 2:
                 if (!empty($unenrolalert) || !empty($globalunenrolalert)) {
-                    $message = $this->get_message($unenrolmessage, $user, $course);
+                    $message = $this->get_message($unenrolmessage, $user, $course, $event);
                     $method = "CANCEL";
                     $subject = get_string('unenrolsubject', 'enrol_notificationical');
                 }
                 break;
             case 3:
                 if (!empty($enrolupdatealert) || !empty($globalenrolupdatealert)) {
-                    $message = $this->get_message($enrolupdatemessage, $user, $course);
+                    $message = $this->get_message($enrolupdatemessage, $user, $course, $event);
                     $method = "REQUEST";
                     $subject = get_string('updatesubject', 'enrol_notificationical');
                     $update = true;
@@ -195,21 +195,42 @@ class enrol_notificationical_plugin extends enrol_plugin
      * @param stdClass $course course instance
      * @return String the processed message
      */
-    public function get_message($message, stdClass $user, stdClass $course) {
-        global $CFG;
+    public function get_message($message, stdClass $user, stdClass $course, \core\event\base $event) {
+        global $DB;
 
         $m = $message;
-        $startdate = date("d.m.y",  $course->startdate);
-        $enddate = date("d.m.y",  $course->enddate);
-        $url = new moodle_url($CFG->wwwroot . '/course/view.php', array('id' => $course->id));
+        $startdate = $course->startdate;
+        $enddate = $course->enddate;
+        if ($event && $event instanceof \core\event\user_enrolment_created) {
+            $ue = $DB->get_record('user_enrolments', array('id' => $event->objectid));
+            if ($ue){
+                if ($ue->timestart){
+                    $startdate = $ue->timestart;
+                }
+                if ($ue->timeend) {
+                    $enddate = $ue->timeend;
+                }
+                else {
+                    $enddate = 0;
+                }
+            }
+        }
+        $startdate_formatted = userdate($startdate, get_string('strftimedatetime', 'core_langconfig'));
+        $enddate_formatted = null;
+        if ($enddate) {
+            $enddate_formatted = userdate($enddate, get_string('strftimedatetime', 'core_langconfig'));;
+        }
+        else {
+            $enddate_formatted = "(end date not yet set)";
+        }
+        $url = new moodle_url('/course/view.php', array('id' => $course->id));
         $m = str_replace('{COURSENAME}', $course->fullname, $m);
         $m = str_replace('{USERNAME}', $user->username, $m);
         $m = str_replace('{FIRSTNAME}', $user->firstname, $m);
         $m = str_replace('{LASTNAME}', $user->lastname, $m);
         $m = str_replace('{URL}', $url, $m);
-        $m = str_replace('{STARTTIME}', $startdate, $m );
-        $m = str_replace('{ENDTIME}', $enddate, $m );
-
+        $m = str_replace('{STARTTIME}', $startdate_formatted, $m);
+        $m = str_replace('{ENDTIME}', $enddate_formatted, $m);
 
         return $m;
     }

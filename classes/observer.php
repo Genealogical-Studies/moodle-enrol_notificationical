@@ -80,9 +80,9 @@ class enrol_notificationical_observer {
             }
 
             if ($activeglobal == 1 && $unenrolalert == 1) {
-                $notificationical->send_email($user, $course, 2);
+                $notificationical->send_email($user, $course, 2, $event);
             } else if (!empty($enrol) && !empty($unenrolalert) && $instanceenabled) {
-                $notificationical->send_email($user, $course, 2);
+                $notificationical->send_email($user, $course, 2, $event);
             }
         }
     }
@@ -128,9 +128,9 @@ class enrol_notificationical_observer {
             }
 
             if ($activeglobal == 1 && $enrolupdatealert == 1) {
-                $notificationical->send_email($user, $course, 3);
+                $notificationical->send_email($user, $course, 3, $event);
             } else if (!empty($enrol) && !empty($enrolupdatealert) && $instanceenabled) {
-                $notificationical->send_email($user, $course, 3);
+                $notificationical->send_email($user, $course, 3, $event);
             }
         }
     }
@@ -174,9 +174,9 @@ class enrol_notificationical_observer {
             }
 
             if ($activeglobal == 1 && $enrolalert == 1) {
-                $notificationical->send_email($user, $course, 1);
+                $notificationical->send_email($user, $course, 1, $event);
             } else if (!empty($enrol) && !empty($enrolalert) && $instanceenabled) {
-                $notificationical->send_email($user, $course, 1);
+                $notificationical->send_email($user, $course, 1, $event);
             }
         }
     }
@@ -222,9 +222,9 @@ class enrol_notificationical_observer {
 
             foreach ($users as $user) {
                 if ($activeglobal == 1 && $enrolalert == 1) {
-                    $notificationical->send_email($user, $course, 3);
+                    $notificationical->send_email($user, $course, 3, $event);
                 } else if (!empty($enrol) && !empty($enrolalert) && $instanceenabled) {
-                    $notificationical->send_email($user, $course, 3);
+                    $notificationical->send_email($user, $course, 3, $event);
                 }
             }
         }
