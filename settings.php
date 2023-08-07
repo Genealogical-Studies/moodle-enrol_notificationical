@@ -32,6 +32,12 @@ defined('MOODLE_INTERNAL') || die();
 if ($ADMIN->fulltree) {
 
     // General settings.
+    $settings->add(new admin_setting_configcheckbox(
+        'enrol_notificationical/attachical',
+        'Include ical attachment',
+        'Should an ical file be attached to the notifications?',
+        ''
+    ));
 
     // Enrol notification.
     $settings->add(new admin_setting_configcheckbox(

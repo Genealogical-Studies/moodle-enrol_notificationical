@@ -72,6 +72,7 @@ class enrol_notificationical_plugin extends enrol_plugin
         $subject = get_string('subject', 'enrol_notificationical');
         $enrolupdatealert = $pluginconfig->enrolupdatealert;
         $globalenrolupdatealert = $pluginconfig->globalenrolupdatealert;
+        $attachical = $pluginconfig->attachical;
         $update = false;
 
         if (!$enrolmessage = $enrol->customtext1) { // Corse level.
@@ -118,13 +119,8 @@ class enrol_notificationical_plugin extends enrol_plugin
         }
         $summary = '';
         $description = '';
-        $location = '';
 
         $supportuser = \core_user::get_support_user();
-
-        $ical = $this->get_ical_attachment($user, $course, $supportuser, $summary, $description, $location);
-        $attachmenttext = $ical->get_attachment($method, $update);
-        $attachname = md5(microtime().$user->id).$ical->get_name();
 
         $eventdata = new \core\message\message();
         $eventdata->courseid = $course->id;
@@ -138,22 +134,29 @@ class enrol_notificationical_plugin extends enrol_plugin
         $eventdata->fullmessageformat = FORMAT_HTML;
         $eventdata->fullmessagehtml = $message;
         $eventdata->smallmessage = '';
-        $eventdata->attachname = $attachname;
         $eventdata->timecreated = time();
 
-        $usercontext = context_user::instance($user->id);
-        $file = new stdClass();
-        $file->contextid = $usercontext->id;
-        $file->component = 'user';
-        $file->filearea  = 'attachment';
-        $file->itemid    = $user->id;
-        $file->filepath  = '/';
-        $file->filename  = $attachname;
+        $file = null;
+        if ($attachical) {
+            $ical = $this->get_ical_attachment($user, $course, $supportuser, $summary, $description);
+            $attachmenttext = $ical->get_attachment($method, $update);
+            $attachname = md5(microtime() . $user->id) . $ical->get_name();
+            $eventdata->attachname = $attachname;
 
-        $fs = get_file_storage();
-        $file = $fs->create_file_from_string($file, $attachmenttext);
+            $usercontext = context_user::instance($user->id);
+            $file = new stdClass();
+            $file->contextid = $usercontext->id;
+            $file->component = 'user';
+            $file->filearea  = 'attachment';
+            $file->itemid    = $user->id;
+            $file->filepath  = '/';
+            $file->filename  = $attachname;
 
-        $eventdata->attachment = $file;
+            $fs = get_file_storage();
+            $file = $fs->create_file_from_string($file, $attachmenttext);
+
+            $eventdata->attachment = $file;
+        }
 
 
         $strdata = new stdClass();
