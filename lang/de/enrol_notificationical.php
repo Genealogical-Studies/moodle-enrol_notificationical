@@ -47,12 +47,14 @@ $string['enrolmessage'] = 'Benachrichtigungstext';
 $string['enrolmessage_help'] = 'Personalisieren Sie die Nachricht, für Anmeldebenachrichtigungen. Folgende Platzhalter werden dynamisch ersetzt:
 <pre>
 {COURSENAME} = Kursname
+{COURSESHORTNAME} =
 {USERNAME} = Nutzer/inname
 {FIRSTNAME} = Vorname
 {LASTNAME} = Nachname
 {URL} = Kurs-URL
 {STARTTIME} = Kursstart
 {ENDTIME} = Kursende
+{NOTIFICATION_URL} =
 </pre>';
 $string['enrolmessagedefault'] = 'Sie wurden in {$a->fullname} ({$a->url}) eingeschrieben';
 
@@ -65,12 +67,14 @@ $string['unenrolmessage'] = 'Kursabmeldebenachrichtigungstext';
 $string['unenrolmessage_help'] = 'Personalisieren Sie die Nachricht, für Abmeldebenachrichtigungen. Folgende Platzhalter werden dynamisch ersetzt:
 <pre>
 {COURSENAME} = Kursname
+{COURSESHORTNAME} =
 {USERNAME} = Nutzer/inname
 {FIRSTNAME} = Vorname
 {LASTNAME} = Nachname
 {URL} = Kurs-URL
 {STARTTIME} = Kursstart
 {ENDTIME} = Kursende
+{NOTIFICATION_URL} =
 </pre>';
 $string['unenrolmessagedefault'] = 'Wie wurden von {$a->fullname} ({$a->url}) abgemeldet';
 
@@ -83,12 +87,14 @@ $string['enrolupdatemessage'] = 'Text für Kursanmeldungsänderungen';
 $string['enrolupdatemessage_help'] = 'Personalisieren Sie die Nachricht, für Kursanmeldungsänderungen. Folgende Platzhalter werden dynamisch ersetzt:
 <pre>
 {COURSENAME} = Kursname
+{COURSESHORTNAME} =
 {USERNAME} = Nutzer/inname
 {FIRSTNAME} = Vorname
 {LASTNAME} = Nachname
 {URL} = Kurs-URL
 {STARTTIME} = Kursstart
 {ENDTIME} = Kursende
+{NOTIFICATION_URL} =
 </pre>';
 $string['enrolupdatemessagedefault'] = 'Ihre Anmeldung zu {$a->fullname} wurde aktualisiert ({$a->url})';
 

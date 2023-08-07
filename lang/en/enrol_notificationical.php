@@ -47,12 +47,14 @@ $string['enrolmessage'] = 'Custom enrol message';
 $string['enrolmessage_help'] = 'Personalize the message that users will come to be enrolled. This field accepts the following markers which then will be replaced by the corresponding values ​​dynamically
 <pre>
 {COURSENAME} = course fullname
+{COURSESHORTNAME} = course shortname
 {USERNAME} = username
 {FIRSTNAME} = firstname
 {LASTNAME} = lastname
 {URL} = course url
 {STARTTIME} = course start
 {ENDTIME} = course end
+{NOTIFICATION_URL} = URL for user to set notification preferences (unsubscribe)
 </pre>';
 $string['enrolmessagedefault'] = 'You have been enrolled in {$a->fullname} ({$a->url})';
 
@@ -65,12 +67,14 @@ $string['unenrolmessage'] = 'Custom unenrol message';
 $string['unenrolmessage_help'] = 'Personalize the message that users will come to be unenrolled. This field accepts the following markers which then will be replaced by the corresponding values ​​dynamically
 <pre>
 {COURSENAME} = course fullname
+{COURSESHORTNAME} = course shortname
 {USERNAME} = username
 {FIRSTNAME} = firstname
 {LASTNAME} = lastname
 {URL} = course url
 {STARTTIME} = course start
 {ENDTIME} = course end
+{NOTIFICATION_URL} = URL for user to set notification preferences (unsubscribe)
 </pre>';
 $string['unenrolmessagedefault'] = 'You have been unenrolled from {$a->fullname} ({$a->url})';
 
@@ -83,12 +87,14 @@ $string['enrolupdatemessage'] = 'Custom enrol update message';
 $string['enrolupdatemessage_help'] = 'Personalize the message that users will come to be updated. This field accepts the following markers which then will be replaced by the corresponding values ​​dynamically
 <pre>
 {COURSENAME} = course fullname
+{COURSESHORTNAME} = course shortname
 {USERNAME} = username
 {FIRSTNAME} = firstname
 {LASTNAME} = lastname
 {URL} = course url
 {STARTTIME} = course start
 {ENDTIME} = course end
+{NOTIFICATION_URL} = URL for user to set notification preferences (unsubscribe)
 </pre>';
 $string['enrolupdatemessagedefault'] = 'Your enrolment to {$a->fullname} has been updated ({$a->url})';
 

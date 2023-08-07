@@ -225,10 +225,12 @@ class enrol_notificationical_plugin extends enrol_plugin
         }
         $url = new moodle_url('/course/view.php', array('id' => $course->id));
         $m = str_replace('{COURSENAME}', $course->fullname, $m);
+        $m = str_replace('{COURSESHORTNAME}', $course->shortname, $m);
         $m = str_replace('{USERNAME}', $user->username, $m);
         $m = str_replace('{FIRSTNAME}', $user->firstname, $m);
         $m = str_replace('{LASTNAME}', $user->lastname, $m);
         $m = str_replace('{URL}', $url, $m);
+        $m = str_replace('{NOTIFICATION_URL}', (new moodle_url('/message/notificationpreferences.php'))->out(), $m);
         $m = str_replace('{STARTTIME}', $startdate_formatted, $m);
         $m = str_replace('{ENDTIME}', $enddate_formatted, $m);
 
