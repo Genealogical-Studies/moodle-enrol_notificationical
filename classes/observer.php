@@ -107,6 +107,7 @@ class enrol_notificationical_observer {
         if ($enabled) {
             $user = $DB->get_record('user', array('id' => $event->relateduserid));
             $course = $DB->get_record('course', array('id' => $event->courseid));
+            $ue = $DB->get_record('user_enrolments', array('id' => $event->objectid));
 
             $notificationical = new enrol_notificationical_plugin();
 
@@ -125,6 +126,15 @@ class enrol_notificationical_observer {
                 if (!$enrol->status) {
                     $instanceenabled = true;
                 }
+            }
+
+            $timestart = $ue->timestart ?: $course->startdate;
+            $timeend = $ue->timeend;
+            $now = time();
+            if ($timestart && $timestart < $now
+                && $timeend && $timeend < $now) {
+                // Don't notify for past enrolments
+                return;
             }
 
             if ($activeglobal == 1 && $enrolupdatealert == 1) {
@@ -156,6 +166,7 @@ class enrol_notificationical_observer {
         if ($enabled) {
             $user = $DB->get_record('user', array('id' => $event->relateduserid));
             $course = $DB->get_record('course', array('id' => $event->courseid));
+            $ue = $DB->get_record('user_enrolments', array('id' => $event->objectid));
 
             $notificationical = new enrol_notificationical_plugin();
 
@@ -173,6 +184,15 @@ class enrol_notificationical_observer {
                 }
             }
 
+            $timestart = $ue->timestart ?: $course->startdate;
+            $timeend = $ue->timeend;
+            $now = time();
+            if ($timestart && $timestart < $now
+                && $timeend && $timeend < $now) {
+                // Don't notify for past enrolments
+                return;
+            }
+
             if ($activeglobal == 1 && $enrolalert == 1) {
                 $notificationical->send_email($user, $course, 1, $event);
             } else if (!empty($enrol) && !empty($enrolalert) && $instanceenabled) {
@@ -186,6 +206,8 @@ class enrol_notificationical_observer {
      * @param \core\event\user_enrolment_created $event
      */
     public static function course_updated(\core\event\course_updated $event) {
+        return; // Disable emailing all users for a course update
+
         global $DB;
 
 
