@@ -58,6 +58,10 @@ class enrol_notificationical_plugin extends enrol_plugin
      */
     public function send_email(stdClass $user, stdClass $course, $type, \core\event\base $event) {
         global $CFG, $DB;
+        if (!empty($CFG->noemailever))
+        {
+            return;
+        }
 
         $course->url = $CFG->wwwroot . '/course/view.php?id=' . $course->id;
 
