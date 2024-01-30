@@ -80,17 +80,17 @@ class enrol_notificationical_plugin extends enrol_plugin
         $sendtosupport = $pluginconfig->sendtosupport;
         $update = false;
 
-        if (!$enrolmessage = $enrol->customtext1) { // Corse level.
+        if (!isset($enrol->customtext1) || !$enrolmessage = $enrol->customtext1) { // Corse level.
             if (!$enrolmessage = $pluginconfig->enrolmessage) { // Plugin level.
                 $enrolmessage = get_string('enrolmessagedefault', 'enrol_notificationical', $course);
             }
         }
-        if (!$unenrolmessage = $enrol->customtext2) { // Corse level.
+        if (!isset($enrol->customtext2) || !$unenrolmessage = $enrol->customtext2) { // Corse level.
             if (!$unenrolmessage = $pluginconfig->unenrolmessage) { // Plugin level.
                 $unenrolmessage = get_string('unenrolmessagedefault', 'enrol_notificationical', $course);
             }
         }
-        if (!$enrolupdatemessage = $enrol->customtext3) { // Corse level.
+        if (!isset($enrol->customtext3) || !$enrolupdatemessage = $enrol->customtext3) { // Corse level.
             if (!$enrolupdatemessage = $pluginconfig->enrolupdatemessage) { // Plugin level.
                 $enrolupdatemessage = get_string('enrolupdatemessagedefault', 'enrol_notificationical', $course);
             }
